@@ -14,11 +14,11 @@ const FooterStyle =styled.div`
  height:60px;
  margin: 0 auto 10px auto;
  background:#FFF ;
- > ul{
+ & > ul{
    list-style-type:none;
-   > li{
+  & > li{
      line-height: 60px;
-    > a{
+   & > a{
         color:cornflowerblue;
         text-decoration:none;
      }

@@ -1,9 +1,9 @@
 import styled from '@emotion/styled'
 export const Banner = () => {
-  return <Container><Person><Avatar src='https://serverless-project-static.oss-cn-beijing.aliyuncs.com/images/avatar.jpg' alt='Moses avatar'></Avatar>
+  return (<Container><Person><Avatar src='https://serverless-project-static.oss-cn-beijing.aliyuncs.com/images/avatar.jpg' alt='Moses avatar'></Avatar>
     <Title>Moses 的个人博客 </Title><Desc>大三学生热爱前端，希望我的博客可以帮助到你</Desc>
   </Person>
-  </Container>
+  </Container>)
 }
 const Container = styled.div`
 position: relative;

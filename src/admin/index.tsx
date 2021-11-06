@@ -1,10 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import 'normalize.css'
+import 'antd/dist/antd.css';
+import { HomeManagement } from 'admin/container/HomeManagement';
 
 
 ReactDOM.render(
   <React.StrictMode>
-    <div>admin Page</div>
+    <HomeManagement></HomeManagement>
   </React.StrictMode>,
   document.getElementById('root')
 );
