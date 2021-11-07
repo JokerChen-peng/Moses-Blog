@@ -1,0 +1,23 @@
+{
+  name: 'Page',
+  attributes:{
+    title:'title',
+    description:'description'
+  }
+  children:[
+    {
+      name:'BlogList',
+      attributes:{}
+      children:[
+        {
+          name:'Blog',
+          attributes:{
+            title:'title',
+            description'title',
+            Link:''
+          }
+        }
+      ]
+    }
+  ]
+}

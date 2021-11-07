@@ -10,7 +10,11 @@ import {
 } from '@ant-design/icons';
 import styled from '@emotion/styled';
 import  PageSetting  from './component/PageSetting';
-
+interface Schema{
+  name: string,
+  attributes?:Record<string, string|undefined>,
+  children?: Schema[]
+}
 const { Header, Sider, Content } = Layout;
  const useCollapsed =()=>{
   const [collapsed, SetCollapsed] = useState(false);
@@ -28,10 +32,31 @@ export const HomeManagement = () => {
   const pageSettingRef = useRef<{title:string,description:string}>();
   const areaListRef = useRef<{list:unknown[]}>();
   const handleSaveBtnClick = ()=>{
-     const listData = JSON.stringify(areaListRef.current?.list);
-     window.localStorage.homeData = listData;
-     window.localStorage.title= pageSettingRef.current?.title;
-     window.localStorage.description = pageSettingRef.current?.description
+    const schema:Schema={
+      name:'Page',
+      attributes:{},
+      children:[{
+        name:'Banner',
+        attributes:{
+          title:pageSettingRef.current?.title,
+          description:pageSettingRef.current?.description
+        }
+      },{
+        name:'Bloglist'
+      },
+      {
+        name:'Footer'
+      },
+    
+     ]
+    }
+    areaListRef.current?.list.forEach(item=>{
+        schema.children?.push({
+          name:'Area'
+        })
+    });
+    const schemaStr = JSON.stringify(schema)
+    window.localStorage.schema = schemaStr;
   }
   return (
     <Layout>

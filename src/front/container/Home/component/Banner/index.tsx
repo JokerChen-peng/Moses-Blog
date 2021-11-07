@@ -1,8 +1,12 @@
 import styled from '@emotion/styled'
 import { Wrapper } from 'common/utils'
+import { parseJsonByString } from 'common/utils'
+const schema =parseJsonByString(window.localStorage.schema,{})
+const banerSchema = schema?.children?.[0]||{}
 export const Banner = () => {
-  const title = window.localStorage.title||'Moses 的个人博客'
-  const desc = window.localStorage.description||'大三学生热爱前端，希望我的博客可以帮助到你'
+  console.log(banerSchema)
+  const title = banerSchema?.attributes?.title||'Moses 的个人博客'
+  const desc = banerSchema?.attributes?.description||'大三学生热爱前端，希望我的博客可以帮助到你'
   return (<Wrapper><Container><Person><Avatar src='https://serverless-project-static.oss-cn-beijing.aliyuncs.com/images/avatar.jpg' alt='Moses avatar'></Avatar>
   <Title>{title} </Title><Desc>{desc}</Desc>
 </Person>

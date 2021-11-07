@@ -3,7 +3,8 @@ import { Button } from 'antd';
 import styled from '@emotion/styled';
 import {parseJsonByString} from 'common/utils'
 import React from 'react';
-const listData =parseJsonByString(window.localStorage.homeData,[])
+let schema =parseJsonByString(window.localStorage.schema,{})
+const listData =schema?.children.splice(3)||[]
 
 export const AreaList =React.forwardRef((props:any,ref:any)=>{
   const [list,setList] = useState<unknown[]>(listData)
