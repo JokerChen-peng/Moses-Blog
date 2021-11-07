@@ -1,24 +1,23 @@
 import styled from '@emotion/styled'
+import { Wrapper } from 'common/utils'
 export const Footer = () => {
-  return (<FooterStyle>
+  return (<Wrapper><FooterStyle>
     <ul>
       <li>
         <a href="/admin.html">进入管理页面</a>
       </li>
     </ul>
-    </FooterStyle>)
+    </FooterStyle></Wrapper>)
 }
 
 const FooterStyle =styled.div`
- width:1280px;
  height:60px;
- margin: 0 auto 10px auto;
  background:#FFF ;
- & > ul{
+ &>ul{
    list-style-type:none;
-  & > li{
+  &>li{
      line-height: 60px;
-   & > a{
+   &>a{
         color:cornflowerblue;
         text-decoration:none;
      }

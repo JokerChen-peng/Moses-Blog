@@ -1,15 +1,16 @@
 import styled from '@emotion/styled'
+import { Wrapper } from 'common/utils'
 export const Banner = () => {
-  return (<Container><Person><Avatar src='https://serverless-project-static.oss-cn-beijing.aliyuncs.com/images/avatar.jpg' alt='Moses avatar'></Avatar>
-    <Title>Moses 的个人博客 </Title><Desc>大三学生热爱前端，希望我的博客可以帮助到你</Desc>
-  </Person>
-  </Container>)
+  const title = window.localStorage.title||'Moses 的个人博客'
+  const desc = window.localStorage.description||'大三学生热爱前端，希望我的博客可以帮助到你'
+  return (<Wrapper><Container><Person><Avatar src='https://serverless-project-static.oss-cn-beijing.aliyuncs.com/images/avatar.jpg' alt='Moses avatar'></Avatar>
+  <Title>{title} </Title><Desc>{desc}</Desc>
+</Person>
+</Container></Wrapper>)
 }
 const Container = styled.div`
 position: relative;
- width:1280px;
  height:530px;
- margin: 0 auto;
  background-image:url('https://serverless-project-static.oss-cn-beijing.aliyuncs.com/images/bg.jpeg');
  background-repeat: no-repeat;
  background-size: contain;
@@ -22,7 +23,6 @@ const Person = styled.div`
   left:0;
   right: 0;
   height: 150px;
-  background:#FFF;
  `
 const Avatar = styled.img`
  position: absolute;

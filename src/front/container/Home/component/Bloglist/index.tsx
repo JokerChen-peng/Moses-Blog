@@ -1,20 +1,16 @@
 import styled from '@emotion/styled'
+import { Wrapper } from 'common/utils'
 const listdata:number[] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 export const BlogList = () => {
-  return <Blogs><List>
+  return(<Wrapper><List>
     {listdata.map((item,index)=>(
       <ListItem key={index}><Img src="./logo.png" alt="" />
       <Title>这是标题</Title><Desc>这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述</Desc>
     </ListItem>
     ))}
-  </List></Blogs>
+  </List></Wrapper>)
 }
-const Blogs = styled.div`
- position: relative;
- width:1280px;
- margin: 15px auto 0 auto;
- background:#FFF;
-`
+ 
 const List = styled.ul`
  margin:0;
  padding:0 0 10px 0;
