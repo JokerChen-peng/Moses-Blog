@@ -6,9 +6,7 @@ import { HomeManagement } from 'admin/container/HomeManagement';
 
 
 ReactDOM.render(
-  <React.StrictMode>
-    <HomeManagement></HomeManagement>
-  </React.StrictMode>,
+    <HomeManagement></HomeManagement>,
   document.getElementById('root')
 );
 

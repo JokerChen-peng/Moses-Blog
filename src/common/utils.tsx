@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-type ParseJsonBystring =(str:string,defaultValue:any)=>any
+import { ParseJsonBystring } from "./type";
 export const parseJsonByString:ParseJsonBystring =(str,defaultValue)=>{
   let  returnValue = defaultValue;
   try{

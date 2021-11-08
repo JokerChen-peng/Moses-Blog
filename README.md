@@ -1,23 +1,21 @@
 {
-  name: 'Page',
+  name: '',
   attributes:{
-    title:'title',
-    description:'description'
   }
   children:[
     {
-      name:'BlogList',
+      name:'Banner',
       attributes:{}
-      children:[
-        {
-          name:'Blog',
-          attributes:{
-            title:'title',
-            description'title',
-            Link:''
-          }
-        }
-      ]
+      children:[]
+    },
+      {
+      name:'List',
+      attributes:{}
+      children:[]
+    },{
+      name:'Footer',
+      attributes:{}
+      children:[]
     }
   ]
 }

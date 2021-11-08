@@ -1,61 +1,59 @@
-import {useImperativeHandle, useState} from 'react';
+import {useImperativeHandle, useState,createRef,useMemo} from 'react';
 import { Button } from 'antd';
 import styled from '@emotion/styled';
-import {parseJsonByString} from 'common/utils'
 import React from 'react';
-let schema =parseJsonByString(window.localStorage.schema,{})
-const listData =schema?.children.splice(3)||[]
-
+import { AreaItem } from '../AreaItem';
+import { Schema } from 'common/type';
+ let refs: (React.RefObject<any>)[] =[]
 export const AreaList =React.forwardRef((props:any,ref:any)=>{
-  const [list,setList] = useState<unknown[]>(listData)
-  const handleAddBtnClick =() =>{
-    const newList = [...list];
-    newList.push({});
-    setList(newList)
+  const [children,setChildren] = useState<Schema[]>(props.children)
+  useMemo(()=>{
+    refs = children.map(item=>createRef())
+  },[children])
+  const addItemToChildren =() =>{
+    const newChildren = [...children];
+    newChildren.push({name:''});
+    setChildren(newChildren)
   }
-  const handleDeleteBtnClick=(index: number)=>{
-    const newList = [...list];
-    newList.splice(index,1)
-    setList(newList)
+  const removeItemFromChildren = (index: number) => {
+    const newChildren = [...children];
+    newChildren.splice(index, 1)
+    setChildren(newChildren)
   }
   useImperativeHandle(ref,()=>{
  return {
-   list
+   getSchemaList:()=>{
+     const schemalist: Schema[] =[];
+      children.forEach((item,index)=>{
+      schemalist.push( refs?.[index]?.current.getSchema())
+     })
+     return schemalist
+   },
+   resetSchema:()=>{
+     setChildren(props.children)
+     children.forEach((item,index)=>{
+       refs[index].current.resetSchema()
+     })
+   }
+   
  }
   })
   return (
     <div>
-      <List>
-        {list.map((_,index)=>(<ListItem key={index}>
-          <span>当前区块内容为空</span>
-          <span><Button onClick={()=>handleDeleteBtnClick(index)}size="small"type="dashed" danger>删除</Button></span>
-        </ListItem>))}
+       <List>
+        {children.map((item,index)=>(<AreaItem  key={index} index={index}
+         item={item}
+         removeItemFromChildren={removeItemFromChildren}
+          ref={refs[index]}
+        />))}
       </List>
-      <Button type="primary" ghost onClick={handleAddBtnClick}>新增内容区块</Button>
+      <Button type="primary" ghost onClick={addItemToChildren}>新增内容区块</Button>
     </div>
   )
 })
+
 const List = styled.ul`
  margin:0;
  padding:0;
  list-style-type:none;
 `
-const ListItem = styled.li`
-  display: flex;
-  line-height: 40px;
-  margin-bottom:10px;
-  padding:0 10px;
-  background:#FFF;
-  border:1px dashed #ccc;
-  color:#999;
-  &:last-of-type{
-    margin-bottom:20px;
-  }
-  &>span:first-of-type{
-    flex :1;
-  }
-  &>span:last-child{
-    width: 80px;
-    text-align:right;
-  }
-  `

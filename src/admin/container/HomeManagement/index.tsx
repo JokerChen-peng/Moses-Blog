@@ -1,4 +1,4 @@
-
+import {Schema} from 'common/type'
 import { useRef, useState } from 'react';
 import { Button, Layout, Menu } from 'antd';
 import { AreaList } from './component/AreaList';
@@ -9,13 +9,13 @@ import {
   RollbackOutlined
 } from '@ant-design/icons';
 import styled from '@emotion/styled';
-import  PageSetting  from './component/PageSetting';
-interface Schema{
-  name: string,
-  attributes?:Record<string, string|undefined>,
-  children?: Schema[]
+import { parseJsonByString } from 'common/utils';
+interface areListRefProps{
+  getSchemaList:()=>Schema[];
+  resetSchema:()=>void
 }
 const { Header, Sider, Content } = Layout;
+const schema = parseJsonByString(window.localStorage.schema,{})
  const useCollapsed =()=>{
   const [collapsed, SetCollapsed] = useState(false);
   const toggleCollapsed = () => {
@@ -29,34 +29,20 @@ export const HomeManagement = () => {
   const handleHomePageRedirect = ()=>{
     window.location.href='/'
   }
-  const pageSettingRef = useRef<{title:string,description:string}>();
-  const areaListRef = useRef<{list:unknown[]}>();
+
+  const areaListRef = useRef<areListRefProps>();
   const handleSaveBtnClick = ()=>{
-    const schema:Schema={
+    const {getSchemaList}  = areaListRef.current as unknown as areListRefProps
+    const schema:Schema = {
       name:'Page',
       attributes:{},
-      children:[{
-        name:'Banner',
-        attributes:{
-          title:pageSettingRef.current?.title,
-          description:pageSettingRef.current?.description
-        }
-      },{
-        name:'Bloglist'
-      },
-      {
-        name:'Footer'
-      },
-    
-     ]
+      children:getSchemaList()
     }
-    areaListRef.current?.list.forEach(item=>{
-        schema.children?.push({
-          name:'Area'
-        })
-    });
-    const schemaStr = JSON.stringify(schema)
-    window.localStorage.schema = schemaStr;
+    window.localStorage.schema = JSON.stringify(schema)
+  }
+  const handleResetBtnClick = ()=>{
+    const {resetSchema}  = areaListRef.current as unknown as areListRefProps
+    resetSchema()
   }
   return (
     <Layout>
@@ -88,11 +74,12 @@ export const HomeManagement = () => {
             minHeight: 1200,
           }}
         >
-          <PageSetting ref={pageSettingRef}/>
-         <AreaList ref={areaListRef}/>
-         <SaveButton>
+         
+         <AreaList ref={areaListRef} children={schema.children||[]}/>
+         <Buttons>
          <Button type="primary" onClick={handleSaveBtnClick}>保存区块配置</Button>
-         </SaveButton>
+         <Button type="primary" style={{marginLeft:'20px'}} onClick={handleResetBtnClick}>重置区块配置</Button>
+         </Buttons>
         </Content>
       </Layout>
     </Layout>
@@ -103,7 +90,7 @@ export const HomeManagement = () => {
 const HeaderMain =styled(Header)`
  padding: 0 20px ;
 `
-const SaveButton =styled.div`
+const Buttons =styled.div`
  padding-top: 20px ;
  margin-top: 20px;
  border-top: 1px dashed #ccc;

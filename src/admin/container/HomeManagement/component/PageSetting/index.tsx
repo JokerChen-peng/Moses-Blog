@@ -1,13 +1,12 @@
 import styled from '@emotion/styled'
 import { Input } from 'antd'
-import {parseJsonByString} from 'common/utils'
 import TextArea from 'antd/lib/input/TextArea'
 import { SetStateAction, useState,forwardRef,useImperativeHandle } from 'react'
-const schema = parseJsonByString(window.localStorage.schema,[])
+
 
 const PageSetting = (props: any,ref: any) => {
-  const [title,setTitle] = useState(schema?.children?.[0]?.attributes?.title||'');
-  const [description,setDescription] = useState(schema?.children?.[0]?.attributes?.description||'');
+  const [title,setTitle] = useState('');
+  const [description,setDescription] = useState('');
   const handleTitleChange =(e: { target: { value: SetStateAction<string> } })=>{
     setTitle(e.target.value)
   }
