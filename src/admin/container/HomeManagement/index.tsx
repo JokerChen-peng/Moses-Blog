@@ -15,7 +15,7 @@ interface areListRefProps{
   resetSchema:()=>void
 }
 const { Header, Sider, Content } = Layout;
-const schema = parseJsonByString(window.localStorage.schema,{})
+const initalSchema = parseJsonByString(window.localStorage.schema,{})
  const useCollapsed =()=>{
   const [collapsed, SetCollapsed] = useState(false);
   const toggleCollapsed = () => {
@@ -26,6 +26,7 @@ const schema = parseJsonByString(window.localStorage.schema,{})
  }
 export const HomeManagement = () => {
   const {collapsed,toggleCollapsed} = useCollapsed()
+  const [schema,setSchema] = useState(initalSchema)
   const handleHomePageRedirect = ()=>{
     window.location.href='/'
   }
@@ -41,8 +42,8 @@ export const HomeManagement = () => {
     window.localStorage.schema = JSON.stringify(schema)
   }
   const handleResetBtnClick = ()=>{
-    const {resetSchema}  = areaListRef.current as unknown as areListRefProps
-    resetSchema()
+    const newSchema =parseJsonByString(window.localStorage.schema,{});
+     setSchema(newSchema)
   }
   return (
     <Layout>

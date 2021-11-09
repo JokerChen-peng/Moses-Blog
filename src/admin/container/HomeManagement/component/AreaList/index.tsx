@@ -1,15 +1,19 @@
-import {useImperativeHandle, useState,createRef,useMemo} from 'react';
+import {useImperativeHandle,useEffect, useState,createRef,useMemo} from 'react';
 import { Button } from 'antd';
 import styled from '@emotion/styled';
 import React from 'react';
 import { AreaItem } from '../AreaItem';
 import { Schema } from 'common/type';
  let refs: (React.RefObject<any>)[] =[]
-export const AreaList =React.forwardRef((props:any,ref:any)=>{
-  const [children,setChildren] = useState<Schema[]>(props.children)
+export const AreaList =React.forwardRef((props:{children:Schema[]},ref:any)=>{
+  const [children,setChildren] =useState(props.children)
+  useEffect(()=>{
+    setChildren(props.children)
+  },[props.children])
   useMemo(()=>{
     refs = children.map(item=>createRef())
-  },[children])
+  },[children]);
+
   const addItemToChildren =() =>{
     const newChildren = [...children];
     newChildren.push({name:''});
@@ -28,12 +32,6 @@ export const AreaList =React.forwardRef((props:any,ref:any)=>{
       schemalist.push( refs?.[index]?.current.getSchema())
      })
      return schemalist
-   },
-   resetSchema:()=>{
-     setChildren(props.children)
-     children.forEach((item,index)=>{
-       refs[index].current.resetSchema()
-     })
    }
    
  }
