@@ -7,10 +7,11 @@ const { Option } =Select
 interface AreaItemProps{
   index:number;
   item:Schema;
-  removeItemFromChildren:(index: number)=>void
+  removeItemFromChildren:(index: number)=>void;
+  changeAreaItem:(item:Schema,index:number)=>void;
 }
 export const AreaItem =React.forwardRef((props:AreaItemProps,ref) => {
-  const {index,item,removeItemFromChildren} = props
+  const {index,item,removeItemFromChildren,changeAreaItem} = props
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [schema,setSchema] =useState(item);
   const [temp,setTemp] = useState(item);
@@ -33,13 +34,15 @@ export const AreaItem =React.forwardRef((props:AreaItemProps,ref) => {
   const handleModalOk = () => {
     setIsModalVisible(false);
     setSchema(temp)
+    changeAreaItem(temp,index)
   };
   const handleModalCancel = () => {
     setIsModalVisible(false);
     setTemp(schema)
   };
-  const handleSelectorChange =(value: any)=>{
+  const handleSelectorChange =(value:string)=>{
     const newSchema:Schema ={
+      id:value,
       name:value,
       attributes:{},
       children:[]

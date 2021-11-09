@@ -1,4 +1,5 @@
 export interface Schema{
+  id:any,
   name?: string,
   attributes?:Record<string, string|undefined>,
   children?: Schema[]

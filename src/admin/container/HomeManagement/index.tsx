@@ -35,6 +35,7 @@ export const HomeManagement = () => {
   const handleSaveBtnClick = ()=>{
     const {getSchemaList}  = areaListRef.current as unknown as areListRefProps
     const schema:Schema = {
+      id:'Page',
       name:'Page',
       attributes:{},
       children:getSchemaList()
