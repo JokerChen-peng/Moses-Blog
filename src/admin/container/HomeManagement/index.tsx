@@ -1,7 +1,9 @@
 import {Schema} from 'common/type'
-import { useRef, useState } from 'react';
+import { useState } from 'react';
+import {useSelector,useDispatch} from 'react-redux'
 import { Button, Layout, Menu } from 'antd';
 import { AreaList } from './component/AreaList';
+import { getChangeSchemaAction } from 'admin/container/HomeManagement/store/action'
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -10,12 +12,9 @@ import {
 } from '@ant-design/icons';
 import styled from '@emotion/styled';
 import { parseJsonByString } from 'common/utils';
-interface areListRefProps{
-  getSchemaList:()=>Schema[];
-  resetSchema:()=>void
-}
+
 const { Header, Sider, Content } = Layout;
-const initalSchema = parseJsonByString(window.localStorage.schema,{})
+
  const useCollapsed =()=>{
   const [collapsed, SetCollapsed] = useState(false);
   const toggleCollapsed = () => {
@@ -24,27 +23,31 @@ const initalSchema = parseJsonByString(window.localStorage.schema,{})
   };
   return {collapsed,toggleCollapsed}
  }
+ const useStore =()=>{
+  const dispatch = useDispatch()
+  const schema:Schema =useSelector((state)=>{
+    return (state as any).homeManagement.schema
+ })
+ const changeSchema =(schema:Schema)=>{
+  dispatch(getChangeSchemaAction(schema))
+ }
+ return {schema,changeSchema}
+ }
+
+
 export const HomeManagement = () => {
+   const {schema,changeSchema} = useStore()
   const {collapsed,toggleCollapsed} = useCollapsed()
-  const [schema,setSchema] = useState(initalSchema)
   const handleHomePageRedirect = ()=>{
     window.location.href='/'
   }
 
-  const areaListRef = useRef<areListRefProps>();
   const handleSaveBtnClick = ()=>{
-    const {getSchemaList}  = areaListRef.current as unknown as areListRefProps
-    const schema:Schema = {
-      id:'Page',
-      name:'Page',
-      attributes:{},
-      children:getSchemaList()
-    }
     window.localStorage.schema = JSON.stringify(schema)
+    
   }
   const handleResetBtnClick = ()=>{
-    const newSchema =parseJsonByString(window.localStorage.schema,{});
-     setSchema(newSchema)
+    changeSchema(parseJsonByString(window.localStorage.schema,{}))
   }
   return (
     <Layout>
@@ -75,9 +78,8 @@ export const HomeManagement = () => {
             padding: 20,
             minHeight: 1200,
           }}
-        >
-         
-         <AreaList ref={areaListRef} children={schema.children||[]}/>
+        >        
+         <AreaList children={schema.children||[]}/>
          <Buttons>
          <Button type="primary" onClick={handleSaveBtnClick}>保存区块配置</Button>
          <Button type="primary" style={{marginLeft:'20px'}} onClick={handleResetBtnClick}>重置区块配置</Button>

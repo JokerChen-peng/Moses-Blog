@@ -1,4 +1,4 @@
-import {useImperativeHandle,useEffect, useState,createRef,useMemo,FC} from 'react';
+import {useImperativeHandle,useEffect, useState,createRef,useMemo} from 'react';
 import { Button } from 'antd';
 import { ReactSortable } from "react-sortablejs";
 import styled from '@emotion/styled';
