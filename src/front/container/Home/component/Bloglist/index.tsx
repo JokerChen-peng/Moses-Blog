@@ -2,6 +2,7 @@ import styled from '@emotion/styled'
 import { Wrapper } from 'common/utils'
 const listdata:number[] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 export const BlogList = () => {
+  
   return(<Wrapper><List>
     {listdata.map((item,index)=>(
       <ListItem key={index}><Img src="./logo.png" alt="" />
