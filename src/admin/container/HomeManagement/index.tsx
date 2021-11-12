@@ -79,7 +79,7 @@ export const HomeManagement = () => {
             minHeight: 1200,
           }}
         >        
-         <AreaList children={schema.children||[]}/>
+         <AreaList/>
          <Buttons>
          <Button type="primary" onClick={handleSaveBtnClick}>保存区块配置</Button>
          <Button type="primary" style={{marginLeft:'20px'}} onClick={handleResetBtnClick}>重置区块配置</Button>

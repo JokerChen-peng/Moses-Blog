@@ -1,44 +1,44 @@
 import styled from "@emotion/styled"
+import { useDispatch, useSelector } from 'react-redux';
+import {getChangePageChildAction,getDeletePageChildAction}from '../../store/action'
 import { Button,Modal,Select } from "antd"
+import {SortableElement} from 'react-sortable-hoc'
 import { Schema } from "common/type";
-import React, { useImperativeHandle } from "react";
-import { useState,useEffect } from "react";
+import { useState } from "react";
 const { Option } =Select
 interface AreaItemProps{
-  index:number;
-  item:Schema;
-  removeItemFromChildren:(index: number)=>void;
-  changeAreaItem:(item:Schema,index:number)=>void;
+  value:number;
 }
-export const AreaItem =React.forwardRef((props:AreaItemProps,ref) => {
-  const {index,item,removeItemFromChildren,changeAreaItem} = props
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const [schema,setSchema] =useState(item);
-  const [temp,setTemp] = useState(item);
+const useStore =(index: number)=>{
+  const dispatch = useDispatch()
+  const pageChild:Schema =useSelector((state)=>{
+    return (state as any).homeManagement.schema.children?.[index]||{}
+   
+ })
+ const changePageChild = (temp: Schema)=>{
+  dispatch(getChangePageChildAction(temp,index))
+}
+ const removePageChild = ()=>{
+  dispatch(getDeletePageChildAction(index))
+ }
+ return {pageChild,changePageChild,removePageChild}
+ }
  
-  useEffect(()=>{
-    setSchema(props.item)
-    setTemp(props.item)
-  },[props.item])
-
-  useImperativeHandle(ref,()=>{
-    return {
-      getSchema:()=>{
-        return schema
-      }
-    }
-     })
+ export const AreaItem =SortableElement((props:AreaItemProps) => {
+  const {value:index} = props;
+  const { pageChild,changePageChild,removePageChild } = useStore(index)
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [tempPageChild,setTempPageChild] = useState(pageChild);
   const showModal = () => {
     setIsModalVisible(true);
   };
   const handleModalOk = () => {
     setIsModalVisible(false);
-    setSchema(temp)
-    changeAreaItem(temp,index)
+    changePageChild(tempPageChild)
   };
   const handleModalCancel = () => {
     setIsModalVisible(false);
-    setTemp(schema)
+    setTempPageChild(pageChild)
   };
   const handleSelectorChange =(value:string)=>{
     const newSchema:Schema ={
@@ -47,14 +47,14 @@ export const AreaItem =React.forwardRef((props:AreaItemProps,ref) => {
       attributes:{},
       children:[]
     }
-    setTemp(newSchema)
+    setTempPageChild(newSchema)
   }
   return (
     <ListItem>
-      <span onClick={showModal}>{schema.name?schema.name+'组件':'当前区块内容为空'}</span>
-      <span><Button size="small" type="dashed" onClick={() => removeItemFromChildren(index)} danger>删除</Button></span>
+      <span onClick={showModal}>{pageChild.name?pageChild.name+'组件':'当前区块内容为空'}</span>
+      <span><Button size="small" type="dashed"  danger onClick={removePageChild}>删除</Button></span>
       <Modal title="选择组件" visible={isModalVisible} onOk={handleModalOk} onCancel={handleModalCancel}>
-       <Select value={temp.name}style={{width:'100%'}} onChange={handleSelectorChange}>
+       <Select value={tempPageChild.name}style={{width:'100%'}} onChange={handleSelectorChange}>
             <Option  value={'Banner'}>Banner 组件</Option>
             <Option  value={'List'}>List 组件</Option>
             <Option  value={'Footer'}>Footer组件</Option>
@@ -64,6 +64,7 @@ export const AreaItem =React.forwardRef((props:AreaItemProps,ref) => {
   )
 }
 )
+ 
 const ListItem = styled.li`
   display: flex;
   line-height: 40px;
