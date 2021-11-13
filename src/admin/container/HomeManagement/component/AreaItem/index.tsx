@@ -1,14 +1,19 @@
 import styled from "@emotion/styled"
 import { useDispatch, useSelector } from 'react-redux';
-import {getChangePageChildAction,getDeletePageChildAction}from '../../store/action'
+import { getChangePageChildAction,getDeletePageChildAction}from '../../store/action'
 import { Button,Modal,Select } from "antd"
-import {SortableElement} from 'react-sortable-hoc'
+import { SortableElement } from 'react-sortable-hoc'
+import {cloneDeep} from 'lodash'
 import { Schema } from "common/type";
-import { useState } from "react";
+import { useState,useEffect } from "react";
+import { Banner } from './component/Banner';
+import { List } from "./component/BlogList";
+import { Footer } from "./component/Footer";
 const { Option } =Select
 interface AreaItemProps{
   value:number;
 }
+
 const useStore =(index: number)=>{
   const dispatch = useDispatch()
   const pageChild:Schema =useSelector((state)=>{
@@ -29,6 +34,9 @@ const useStore =(index: number)=>{
   const { pageChild,changePageChild,removePageChild } = useStore(index)
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [tempPageChild,setTempPageChild] = useState(pageChild);
+  useEffect(()=>{
+    setTempPageChild(pageChild)
+  },[pageChild])
   const showModal = () => {
     setIsModalVisible(true);
   };
@@ -49,6 +57,28 @@ const useStore =(index: number)=>{
     }
     setTempPageChild(newSchema)
   }
+
+  
+  const changeTempPageChildAttributes =(kvObj:any)=>{
+   const newTempPageChild=cloneDeep(tempPageChild as any);
+   for(let key in kvObj){
+    newTempPageChild.attributes[key] =kvObj[key]
+   }
+    setTempPageChild(newTempPageChild)
+  }
+  const getComponent=()=>{
+    const {name} = tempPageChild;
+    switch(name){
+      case 'Banner':
+        return <Banner {...tempPageChild} changeAttributes={changeTempPageChildAttributes}/>
+      case 'List':
+        return <List/>
+      case 'Footer':
+        return <Footer/>
+      default:
+        return null
+    }
+  }
   return (
     <ListItem>
       <span onClick={showModal}>{pageChild.name?pageChild.name+'组件':'当前区块内容为空'}</span>
@@ -59,6 +89,7 @@ const useStore =(index: number)=>{
             <Option  value={'List'}>List 组件</Option>
             <Option  value={'Footer'}>Footer组件</Option>
        </Select>
+       {getComponent()}
       </Modal>
     </ListItem>
   )
