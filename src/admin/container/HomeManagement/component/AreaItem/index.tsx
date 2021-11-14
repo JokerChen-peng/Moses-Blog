@@ -79,7 +79,7 @@ const useStore =(index: number)=>{
       case 'List':
         return <List {...tempPageChild} changeChildren={changeTempPageChildChildren}/>
       case 'Footer':
-        return <Footer/>
+        return <Footer {...tempPageChild} changeAttributes={changeTempPageChildAttributes} changeChildren={changeTempPageChildChildren}/>
       default:
         return null
     }

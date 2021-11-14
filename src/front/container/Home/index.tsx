@@ -10,7 +10,7 @@ const render =(item: Schema,index: number)=>{
     case 'Banner':
       return <Banner key={index} schema={item}/>
     case 'Footer':
-      return <Footer key={index} />
+      return <Footer key={index} schema={item}/>
     case 'List':
       return <BlogList key={index} schema={item}/>
     default:
