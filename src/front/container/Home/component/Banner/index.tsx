@@ -16,7 +16,6 @@ export const Banner = ({schema}:BannerProps) => {
     backgroundUrl,backgroundHeight:parseInt((backgroundHeight as any),10)
   }:{};
   
-  console.log(wrapperStyleObj)
   return (<Wrapper>
     <Container {...wrapperStyleObj }>
       <Person>

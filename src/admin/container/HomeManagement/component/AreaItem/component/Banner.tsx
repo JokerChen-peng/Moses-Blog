@@ -19,7 +19,7 @@ export const Banner =(props:any)=>{
    
   }
 
-  return (<div>
+  return (<Wrapper>
     <Row>
       <span>页面标题</span>
       <Input 
@@ -65,14 +65,19 @@ export const Banner =(props:any)=>{
        onChange={(e)=>{changeAttributes({backgroundHeight:e.target.value})}}
       ></Input>
     </Row>
-  </div>) 
+    </Wrapper>) 
 }
 
 const Row = styled.div`
  display: flex;
  margin-top:14px;
  &>span{
+  line-height: 32px;
    width:70px;
  }
+`
+ const Wrapper =styled.div`
+margin-top:15px;
+border-top:1px solid #ccc;
 `
 

@@ -33,9 +33,9 @@ const useStore =(index: number)=>{
   const {value:index} = props;
   const { pageChild,changePageChild,removePageChild } = useStore(index)
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const [tempPageChild,setTempPageChild] = useState(pageChild);
+  const [tempPageChild,setTempPageChild] = useState(cloneDeep(pageChild));
   useEffect(()=>{
-    setTempPageChild(pageChild)
+    setTempPageChild(cloneDeep(pageChild))
   },[pageChild])
   const showModal = () => {
     setIsModalVisible(true);
@@ -46,7 +46,7 @@ const useStore =(index: number)=>{
   };
   const handleModalCancel = () => {
     setIsModalVisible(false);
-    setTempPageChild(pageChild)
+    setTempPageChild(cloneDeep(pageChild))
   };
   const handleSelectorChange =(value:string)=>{
     const newSchema:Schema ={
@@ -60,19 +60,24 @@ const useStore =(index: number)=>{
 
   
   const changeTempPageChildAttributes =(kvObj:any)=>{
-   const newTempPageChild=cloneDeep(tempPageChild as any);
+   const newTempPageChild={...tempPageChild};
    for(let key in kvObj){
     newTempPageChild.attributes[key] =kvObj[key]
    }
     setTempPageChild(newTempPageChild)
   }
+  const changeTempPageChildChildren =(children:any)=>{
+    const newTempPageChild={...tempPageChild};
+     newTempPageChild.children =children
+     setTempPageChild(newTempPageChild)
+   }
   const getComponent=()=>{
     const {name} = tempPageChild;
     switch(name){
       case 'Banner':
         return <Banner {...tempPageChild} changeAttributes={changeTempPageChildAttributes}/>
       case 'List':
-        return <List/>
+        return <List {...tempPageChild} changeChildren={changeTempPageChildChildren}/>
       case 'Footer':
         return <Footer/>
       default:
@@ -83,7 +88,13 @@ const useStore =(index: number)=>{
     <ListItem>
       <span onClick={showModal}>{pageChild.name?pageChild.name+'组件':'当前区块内容为空'}</span>
       <span><Button size="small" type="dashed"  danger onClick={removePageChild}>删除</Button></span>
-      <Modal title="选择组件" visible={isModalVisible} onOk={handleModalOk} onCancel={handleModalCancel}>
+      <Modal title="选择组件"
+       visible={isModalVisible}
+       onOk={handleModalOk}
+       onCancel={handleModalCancel}
+       bodyStyle={{maxHeight:600,overflowY:'scroll'}}
+       
+       >
        <Select value={tempPageChild.name}style={{width:'100%'}} onChange={handleSelectorChange}>
             <Option  value={'Banner'}>Banner 组件</Option>
             <Option  value={'List'}>List 组件</Option>
@@ -115,5 +126,6 @@ const ListItem = styled.li`
     text-align:right;
   }
   `
+
 
 

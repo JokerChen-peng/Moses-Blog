@@ -12,7 +12,7 @@ const render =(item: Schema,index: number)=>{
     case 'Footer':
       return <Footer key={index} />
     case 'List':
-      return <BlogList key={index} />
+      return <BlogList key={index} schema={item}/>
     default:
       return null;
   }

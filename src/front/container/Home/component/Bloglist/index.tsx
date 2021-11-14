@@ -1,15 +1,24 @@
 import styled from '@emotion/styled'
+import { Schema } from 'common/type'
 import { Wrapper } from 'common/utils'
-const listdata:number[] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-export const BlogList = () => {
-  
-  return(<Wrapper><List>
-    {listdata.map((item,index)=>(
-      <ListItem key={index}><Img src="./logo.png" alt="" />
-      <Title>这是标题</Title><Desc>这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述</Desc>
+
+interface ListProps {
+  schema:Schema
+}
+export const BlogList = ({schema}:ListProps) => {
+  const {children=[]} = schema;
+  return(<Wrapper>
+    <List>
+    {children.map(({attributes:{imgUrl,title,description,link}},index)=>(
+      <ListItem key={index}>
+        <Link href={link} target='_blank' rel='noreferrer'>
+        <Img src={imgUrl} alt={title} />
+        <Title>{title||'暂无标题'}</Title>
+        <Desc>{description||'暂无标题'}</Desc>
+        </Link>
     </ListItem>
     ))}
-  </List></Wrapper>)
+    </List></Wrapper>)
 }
  
 const List = styled.ul`
@@ -26,8 +35,9 @@ const ListItem = styled.li`
 const Img = styled.img`
 display: block;
  width: 240px;
- height:180px;
+ height:135px;
  margin:0 auto;
+ border-radius: 10px;
 `
 const Title = styled.h4`
  overflow: hidden;
@@ -51,4 +61,8 @@ const Desc = styled.p`
  display: -webkit-box;
  -webkit-box-orient:vertical;
  -webkit-line-clamp:4;
+`
+const Link = styled.a`
+  color:#333;
+  text-decoration: none;
 `
