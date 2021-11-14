@@ -1,6 +1,6 @@
 import styled from "@emotion/styled"
 import { useDispatch, useSelector } from 'react-redux';
-import { getChangePageChildAction,getDeletePageChildAction}from '../../store/action'
+import { getChangePageChildAction,getDeletePageChildAction}from 'admin/store/action'
 import { Button,Modal,Select } from "antd"
 import { SortableElement } from 'react-sortable-hoc'
 import {cloneDeep} from 'lodash'
@@ -17,7 +17,7 @@ interface AreaItemProps{
 const useStore =(index: number)=>{
   const dispatch = useDispatch()
   const pageChild:Schema =useSelector((state)=>{
-    return (state as any).homeManagement.schema.children?.[index]||{}
+    return (state as any).common.schema.children?.[index]||{}
    
  })
  const changePageChild = (temp: Schema)=>{

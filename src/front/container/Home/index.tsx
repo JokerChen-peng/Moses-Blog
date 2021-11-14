@@ -1,10 +1,11 @@
 import { Schema } from 'common/type'
 import {parseJsonByString} from 'common/utils'
+import { Helmet,HelmetProvider } from 'react-helmet-async'
 import { Banner } from './component/Banner'
 import {Footer} from './component/Footer'
 import { BlogList } from './component/Bloglist'
-const pageSchema = parseJsonByString(window.localStorage.schema,{})
-const children:Schema[] = pageSchema.children || [];
+const pageSchema:Schema= parseJsonByString(window.localStorage.schema,{})
+const {children=[],attributes={}} = pageSchema
 const render =(item: Schema,index: number)=>{
   switch(item.name){
     case 'Banner':
@@ -19,11 +20,14 @@ const render =(item: Schema,index: number)=>{
 }
 export const Home = () => {
 
-  return (<div>
+  return (<HelmetProvider>
+    <Helmet>
+      <title>{attributes?.title||''}</title>
+    </Helmet>
     {
       children.map((item,index)=>{
         return render(item,index)
       })
     }
-  </div>)
+  </HelmetProvider>)
 }

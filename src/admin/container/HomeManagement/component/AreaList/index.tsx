@@ -5,7 +5,7 @@ import { Schema } from 'common/type';
 import { useDispatch, useSelector } from 'react-redux';
 import {SortableContainer} from 'react-sortable-hoc'
 import { AreaItem } from '../AreaItem';
-import { getAddPageChildrenAction,getChangePageChildPositionAction } from '../../store/action';
+import { getAddPageChildrenAction,getChangePageChildPositionAction } from 'admin/store/action';
 interface SortableListProps{
   list:Schema[]
 }
@@ -22,7 +22,7 @@ const SortableList = SortableContainer(({list}:SortableListProps) => {
 export const AreaList =()=>{
   const dispatch = useDispatch()
   const children:Schema[] =useSelector((state)=>{
-    return (state as any).homeManagement.schema?.children||[]
+    return (state as any).common.schema?.children||[]
  })
   const addPageChildren =() =>{
     dispatch(getAddPageChildrenAction())

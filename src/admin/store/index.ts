@@ -1,7 +1,7 @@
 import {createStore,combineReducers} from 'redux';
-import  homeManagementReducer from './admin/container/HomeManagement/store/reducer'
+import  commonReducer from './reducer'
 const reducer = combineReducers({
-  homeManagement:homeManagementReducer
+  common:commonReducer
 })
 const store = createStore(reducer,  (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__())
 
