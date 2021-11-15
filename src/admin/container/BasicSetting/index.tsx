@@ -33,9 +33,10 @@ export const BasicSetting = () => {
     changeSchema(parseJsonByString(window.localStorage.schema,{}))
   }
   
-  const handleTitleChange =useCallback((e:any)=>{
-    changePageAttribute('title',e.target.value)
-  },[changePageAttribute])
+   const handleTitleChange =useCallback((e:any)=>{
+     changePageAttribute('title',e.target.value)
+   },[changePageAttribute])
+
   
   return (
    <div>

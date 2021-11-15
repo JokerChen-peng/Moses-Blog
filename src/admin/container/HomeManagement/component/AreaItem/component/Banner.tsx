@@ -7,6 +7,7 @@ export const Banner =(props:any)=>{
   const {title,description,showSmallPic,smallPicUrl,backgroundUrl,backgroundHeight} =attributes
 
   const handleShowSmallPicChange =(checked:boolean)=>{
+    
     if(!checked){
       changeAttributes({
       showSmallPic:checked,
