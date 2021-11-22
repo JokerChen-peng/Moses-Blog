@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
-import {Schema} from 'common/type'
+import {Schema} from 'common/type';
+import  axios from 'axios';
 import {useSelector,useDispatch} from 'react-redux'
 import { getChangeSchemaAction,getChangeAttributeAction } from 'admin/store/action'
 import { parseJsonByString } from 'common/utils';
@@ -27,10 +28,16 @@ export const BasicSetting = () => {
    const {attributes={}} =schema
    const {title='' } = attributes
   const handleSaveBtnClick = ()=>{
-    window.localStorage.schema = JSON.stringify(schema)
+    axios.post('/api/schema/save',{
+      schema:JSON.stringify(schema)
+    }).then(()=>{})
+    
   }
   const handleResetBtnClick = ()=>{
-    changeSchema(parseJsonByString(window.localStorage.schema,{}))
+    axios.get('/api/schema/getLastestOne').then((response)=>{
+      const data = response?.data?.data
+      data&&changeSchema(parseJsonByString(data.schema,{}))
+    })
   }
   
    const handleTitleChange =useCallback((e:any)=>{

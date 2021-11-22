@@ -2,7 +2,7 @@
 import ReactDOM from 'react-dom';
 import {HashRouter as Router,Route,Routes,Link } from 'react-router-dom'
 import { Layout, Menu } from 'antd';
-import { Provider } from 'react-redux';
+import { Provider, useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import { HomeManagement } from 'admin/container/HomeManagement';
 import { BasicSetting } from './container/BasicSetting';
@@ -16,8 +16,22 @@ import {
 } from '@ant-design/icons';
 
 import store from '../admin/store/index';
-import { useState } from 'react';
+import { useState,useEffect} from 'react';
+import { Schema } from 'common/type';
+import { getChangeSchemaAction } from './store/action';
+import axios from 'axios';
+import { parseJsonByString } from 'common/utils';
 const { Header, Sider, Content } = Layout;
+const useStore =()=>{
+  const dispatch = useDispatch()
+
+ const changeSchema =(schema:Schema)=>{
+  dispatch(getChangeSchemaAction(schema))
+ }
+
+ return {changeSchema}
+ }
+
 const useCollapsed =()=>{
   const [collapsed, SetCollapsed] = useState(false);
   const toggleCollapsed = () => {
@@ -26,12 +40,18 @@ const useCollapsed =()=>{
   return {collapsed,toggleCollapsed}
   };
 const Wrapper =() =>{
-  
+  const {changeSchema} =useStore()
   const {collapsed,toggleCollapsed} = useCollapsed()
   const handleHomePageRedirect = ()=>{
     window.location.href='/'
   }
 
+  useEffect(()=>{
+    axios.get('/api/schema/getLastestOne').then((response)=>{
+      const data = response?.data?.data
+      data && changeSchema(parseJsonByString(data.schema,{}))
+    })
+  },[changeSchema])
 
   return( 
     <Router>

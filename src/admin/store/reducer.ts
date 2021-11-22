@@ -1,12 +1,12 @@
-import { parseJsonByString } from 'common/utils';
+import { Schema } from 'common/type';
 import {produce,original} from 'immer';
 import { CHANGE_SCHEMA,ADD_PAGE_CHILDREN,CHANGE_PAGE_CHILD,DELETE_PAGE_CHILD,CHANGE_PAGE_CHILD_POSITION,CHANGE_PAGE_ATTRIBUTE} from './constant'
-const initalSchema = parseJsonByString(window.localStorage.schema,{
+const initalSchema:Schema = {
   id:'Page',
   name:'Page',
   attributes:{},
   children:[]
- })
+ }
 const defaultState ={
  schema:initalSchema
 }
@@ -26,7 +26,7 @@ const reducer =(state=defaultState,action: any) =>produce(
         draft.schema.children.splice(action.index,1)
         break;
       case CHANGE_PAGE_CHILD_POSITION:
-        const copy = original(draft.schema.children)
+        const copy:any = original(draft.schema.children)
        draft.schema.children.splice(action.oldIndex,1)
        draft.schema.children.splice(action.newIndex,0,copy[action.oldIndex])
         break;

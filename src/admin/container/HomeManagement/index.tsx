@@ -7,6 +7,7 @@ import { getChangeSchemaAction } from 'admin/store/action'
 import { parseJsonByString } from 'common/utils';
 import styled from '@emotion/styled';
 import { Button } from 'antd';
+import axios from 'axios';
  const useStore =()=>{
   const dispatch = useDispatch()
   const schema:Schema =useSelector((state)=>{
@@ -24,11 +25,16 @@ export const HomeManagement = () => {
   
  
   const handleSaveBtnClick = ()=>{
-    window.localStorage.schema = JSON.stringify(schema)
+    axios.post('/api/schema/save',{
+      schema:JSON.stringify(schema)
+    }).then(()=>{})
     
   }
   const handleResetBtnClick = ()=>{
-    changeSchema(parseJsonByString(window.localStorage.schema,{}))
+    axios.get('/api/schema/getLastestOne').then((response)=>{
+      const data = response?.data?.data
+      data&&changeSchema(parseJsonByString(data.schema,{}))
+    })
   }
   return (
    <div>

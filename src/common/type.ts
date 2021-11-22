@@ -5,3 +5,4 @@ export interface Schema{
   children: Schema[]
 }
 export type ParseJsonBystring =(str:string,defaultValue:any)=>any
+export type PartialSchema =Partial<Schema>
