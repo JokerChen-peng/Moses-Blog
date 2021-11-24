@@ -9,10 +9,10 @@ export const BlogList = ({schema}:ListProps) => {
   const {children=[]} = schema;
   return(<Wrapper>
     <List>
-    {children.map(({attributes:{imgUrl,title,description,link}},index)=>(
+    {children.map(({attributes:{imgeUrl,title,description,link}},index)=>(
       <ListItem key={index}>
         <Link href={link} target='_blank' rel='noreferrer'>
-        <Img src={imgUrl} alt={title} />
+        <Img src={imgeUrl} alt={title} />
         <Title>{title||'暂无标题'}</Title>
         <Desc>{description||'暂无标题'}</Desc>
         </Link>
