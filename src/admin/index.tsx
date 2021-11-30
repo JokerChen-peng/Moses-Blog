@@ -23,7 +23,7 @@ import axios from 'axios';
 import { parseJsonByString } from 'common/utils';
 import { UnauthenticatedApp } from './container/Login';
 import { useNavigate } from "react-router-dom";
-import { getToken } from './container/Login/utils/authProvider';
+import { getLoginStatus } from './container/Login/utils/getLoginStatus';
 const { Header, Sider, Content } = Layout;
 const useStore =()=>{
   const dispatch = useDispatch()
@@ -46,25 +46,27 @@ const Wrapper =() =>{
   const navigate = useNavigate()
   const {changeSchema} =useStore()
   const {collapsed,toggleCollapsed} = useCollapsed()
+  const login = getLoginStatus()
   const handleHomePageRedirect = ()=>{
     window.location.href='/'
   }
   useEffect(()=>{
-    let token =getToken()
-    if(!token){
+    if(!login){
      navigate("../")
     }
- },[navigate])
+    //eslint-disable-next-line
+ },[login])
   useEffect(()=>{
     axios.get('/api/schema/getLastestOne').then((response)=>{
       const data = response?.data?.data
       data && changeSchema(parseJsonByString(data.schema,{}))
     })
-  },[changeSchema])
+    //eslint-disable-next-line
+  },[])
 
   return( 
    
-      <Layout>
+    <Layout>
     <Sider trigger={null} collapsible collapsed={collapsed}>
       <Menu theme="dark" mode="inline" defaultSelectedKeys={['admin-home']}>
         <Menu.Item key="admin-home" icon={<HomeOutlined />}>

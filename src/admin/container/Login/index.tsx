@@ -13,9 +13,6 @@ export const UnauthenticatedApp = () => {
   </Container>)
 };
 
-
-
-
 const Background = styled.div`
   position: absolute;
   width: 100%;
