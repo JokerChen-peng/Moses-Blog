@@ -1,6 +1,5 @@
 
 import { Login } from "./components/Login";
-import { Card, Divider } from "antd";
 import styled from "@emotion/styled";
 import left from "assets/left.svg";
 import right from "assets/right.svg";
@@ -10,20 +9,12 @@ export const UnauthenticatedApp = () => {
   return (<Container>
     <Header />
     <Background />
-    <ShadowCard>
-      <Title>请登录</Title>   
         <Login/>
-      <Divider />
-    </ShadowCard>
   </Container>)
 };
 
 
 
-const Title = styled.h2`
-  margin-bottom: 2.4rem;
-  color: rgb(94, 108, 132);
-`;
 
 const Background = styled.div`
   position: absolute;
@@ -43,15 +34,6 @@ const Header = styled.header`
   width: 100%;
 `;
 
-const ShadowCard = styled(Card)`
-  width: 40rem;
-  min-height: 45rem;
-  padding: 3.2rem 4rem;
-  border-radius: 0.3rem;
-  box-sizing: border-box;
-  box-shadow: rgba(0, 0, 0, 0.1) 0 0 10px;
-  text-align: center;
-`;
 
 const Container = styled.div`
   display: flex;
