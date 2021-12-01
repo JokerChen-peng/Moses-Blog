@@ -1,30 +1,40 @@
 import styled from '@emotion/styled'
 import { Schema } from 'common/type'
 import { Wrapper } from 'common/utils'
+import { useEffect, useState } from 'react'
 interface BannerProps {
   schema:Schema
 }
 type BackgroundProps = {
   backgroundUrl?: string
   backgroundHeight?: number
+  paddingBottom?:string
 }
 export const Banner = ({schema}:BannerProps) => {
+  const [paddingBottom,setBottom] = useState('0px')
   const {attributes = {} } =schema
   const {title,description,showSmallPic,smallPicUrl,backgroundUrl,backgroundHeight} =attributes
-
+  useEffect(()=>{
+    if(!title&&!description&&!showSmallPic){
+      setBottom('0px') 
+    }else{
+      setBottom('150px')
+    }
+  },[title,description,showSmallPic])
   const wrapperStyleObj:BackgroundProps= backgroundUrl?{
-    backgroundUrl,backgroundHeight:parseInt((backgroundHeight as any),10)
+    backgroundUrl,backgroundHeight:parseInt((backgroundHeight as any),10),paddingBottom
   }:{};
   
   return (<Wrapper>
-    <Container {...wrapperStyleObj }>
-      <Person>
-        {(showSmallPic&&smallPicUrl)?(<Avatar src={smallPicUrl} alt=''></Avatar>):null}
-       <Content>
-        <Title>{title} </Title>
-        <Desc>{description}</Desc>
-       </Content>
-      </Person>
+    <Container {...wrapperStyleObj }>{
+      (!title&&!description&&!showSmallPic)?null: <Person>
+      {(showSmallPic&&smallPicUrl)?(<Avatar src={smallPicUrl} alt=''></Avatar>):null}
+     <Content>
+      <Title>{title} </Title>
+      <Desc>{description}</Desc>
+     </Content>
+    </Person>
+    }
     </Container>
         </Wrapper>)
 }
@@ -34,7 +44,7 @@ const Container = styled.div<BackgroundProps>`
  background-image:url(${props=>props.backgroundUrl});
  background-repeat: no-repeat;
  background-size: contain;
- padding-bottom:150px;
+ padding-bottom:${props=>props.paddingBottom};
 `
 
 const Person = styled.div`

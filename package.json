@@ -89,7 +89,7 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
-    "build": "cross-env PUBLIC_URL=http://statics.jrmoses.top/code/ node scripts/build.js",
+    "build": "cross-env PUBLIC_URL=http://static.jrmoses.top/code/ node scripts/build.js",
     "test": "node scripts/test.js"
   },
   "eslintConfig": {
