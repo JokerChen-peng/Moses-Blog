@@ -26,7 +26,7 @@ import { Button,Input } from 'antd';
 export const BasicSetting = () => {
    const {schema,changePageAttribute,changeSchema} = useStore()
    const {attributes={}} =schema
-   const {title='' } = attributes
+   const {title='',keyword='',desc='' } = attributes
   const handleSaveBtnClick = ()=>{
     axios.post('/api/schema/save',{
       schema:JSON.stringify(schema)
@@ -43,18 +43,41 @@ export const BasicSetting = () => {
    const handleTitleChange =useCallback((e:any)=>{
      changePageAttribute('title',e.target.value)
    },[changePageAttribute])
+   const handleKeywordsChange =useCallback((e:any)=>{
+    changePageAttribute('keyword',e.target.value)
+  },[changePageAttribute])
+   const handleDescChange =useCallback((e:any)=>{
+    changePageAttribute('desc',e.target.value)
+  },[changePageAttribute])
 
   
   return (
    <div>
      <Row>
       <div className='title'>
-      页面标题:
+      网站标题:
       </div>
        <div className='content'>
          <Input value={title} onChange={handleTitleChange}/>
        </div>
      </Row>
+     <Row>
+      <div className='title'>
+      网站关键词:
+      </div>
+       <div className='content'>
+         <Input value={keyword} onChange={handleKeywordsChange}/>
+       </div>
+     </Row>
+     <Row>
+      <div className='title'>
+      网站描述:
+      </div>
+       <div className='content'>
+         <Input value={desc} onChange={handleDescChange}/>
+       </div>
+     </Row>
+    
    <Buttons>
    <Button type="primary" onClick={handleSaveBtnClick}>保存基础配置</Button>
    <Button type="primary" style={{marginLeft:'20px'}} onClick={handleResetBtnClick}>重置基础配置</Button>
@@ -70,6 +93,7 @@ const Buttons =styled.div`
  text-align:center;
 `
 const Row = styled.div`
+ margin-bottom:20px;
  display: flex;
  .title{
    width:100px;
