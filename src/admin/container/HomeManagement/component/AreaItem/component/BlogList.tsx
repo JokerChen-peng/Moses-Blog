@@ -72,19 +72,25 @@ const changeChildrenItem =(index: number,key: string | number,value: any)=>{
              placeholder='请输入图片地址' 
                onChange={(e)=>{changeChildrenItem(index,'imgeUrl',e.target.value)}}
              ></Input>
-              <Input 
+           </Row>
+           <Row>
+           <span>高度</span>
+           <Input 
               value={attributes?.height} 
              placeholder='请输入图片高度' 
              defaultValue='200px'
                onChange={(e)=>{changeChildrenItem(index,'height',e.target.value)}}
              ></Input>
+             </Row>
+             <Row>
+             <span>宽度</span>
               <Input 
               value={attributes?.width} 
              placeholder='请输入图片宽度'
              defaultValue='200px'
                onChange={(e)=>{changeChildrenItem(index,'width',e.target.value)}}
              ></Input>
-           </Row>
+             </Row>
            <Row>
              <span>链接</span>
              <Input 
@@ -92,6 +98,8 @@ const changeChildrenItem =(index: number,key: string | number,value: any)=>{
              placeholder='请输入跳转' 
                onChange={(e)=>{changeChildrenItem(index,'link',e.target.value)}}
              ></Input>
+           </Row>
+           <Row>
            </Row>
           </Area>)
       })

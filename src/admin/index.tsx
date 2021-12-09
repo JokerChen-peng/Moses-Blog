@@ -12,7 +12,8 @@ import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
   HomeOutlined ,
-  RollbackOutlined
+  RollbackOutlined,
+  FormOutlined
 } from '@ant-design/icons';
 
 import store from '../admin/store/index';
@@ -24,6 +25,7 @@ import { parseJsonByString } from 'common/utils';
 import { UnauthenticatedApp } from './container/Login';
 import { useNavigate } from "react-router-dom";
 import { getLoginStatus } from './container/Login/utils/getLoginStatus';
+import { DetailSetting } from './container/DetailSetting';
 const { Header, Sider, Content } = Layout;
 const useStore =()=>{
   const dispatch = useDispatch()
@@ -75,6 +77,9 @@ const Wrapper =() =>{
         <Menu.Item key="admin-basic" icon={<HomeOutlined />}>
         <Link to='basic'>基础内容配置</Link>
         </Menu.Item>
+        <Menu.Item key="admin-detail" icon={<FormOutlined />}>
+        <Link to='detail'>详情页配置</Link>
+        </Menu.Item>
         <Menu.Item key="admin-back" icon={<RollbackOutlined />}
          onClick={handleHomePageRedirect}
         >
@@ -101,6 +106,7 @@ const Wrapper =() =>{
       <Routes>
         <Route path='basic' element={<BasicSetting/>}/>
         <Route path='' element={<HomeManagement/>}/>
+        <Route path='detail' element={<DetailSetting/>}/>   
       </Routes>       
       </Content>
     </Layout>

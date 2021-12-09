@@ -5,7 +5,7 @@ import TextArea from 'antd/lib/input/TextArea'
 export const Banner =(props:any)=>{
   const {attributes,changeAttributes} =props
   const {title,description,showSmallPic,smallPicUrl,backgroundUrl,backgroundHeight} =attributes
-
+ 
   const handleShowSmallPicChange =(checked:boolean)=>{
     
     if(!checked){
