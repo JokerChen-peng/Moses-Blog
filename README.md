@@ -4,7 +4,7 @@
 
 ## [前台展示页面](https://github.com/JokerChen-peng/my-ssr-backend)
 
-
+### 管理员账号 Moses chenkunpeng123 （不要乱改配置）
 ```js
 {
   name: 'Page',
